@@ -9,7 +9,7 @@ const ShopCategory = (props) => {
   const [allproducts, setAllProducts] = useState([]);
 
   const fetchInfo = () => { 
-    fetch('http://localhost:4000/allproducts') 
+    fetch('http://ec2-54-224-39-210.compute-1.amazonaws.com:4000/allproducts') 
             .then((res) => res.json()) 
             .then((data) => setAllProducts(data))
     }

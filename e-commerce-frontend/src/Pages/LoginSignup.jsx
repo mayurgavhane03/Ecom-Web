@@ -12,7 +12,7 @@ const LoginSignup = () => {
 
   const login = async () => {
     let dataObj;
-    await fetch('http://localhost:4000/login', {
+    await fetch('http://ec2-54-224-39-210.compute-1.amazonaws.com:4000/login', {
       method: 'POST',
       headers: {
         Accept:'application/form-data',
@@ -35,7 +35,7 @@ const LoginSignup = () => {
 
   const signup = async () => {
     let dataObj;
-    await fetch('http://localhost:4000/signup', {
+    await fetch('http://ec2-54-224-39-210.compute-1.amazonaws.com:4000/signup', {
       method: 'POST',
       headers: {
         Accept:'application/form-data',
