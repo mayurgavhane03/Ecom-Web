@@ -45,6 +45,9 @@ const uploadOnCloudinary = async (localFilePath) => {
       resource_type: "auto"
     });
 
+    console.log(response.url);
+
+    //console 
     console.log("File uploaded successfully on Cloudinary", response.url);
     return response;
   } catch (error) {
@@ -302,10 +305,15 @@ app.post("/addproduct", async (req, res) => {
     new_price: req.body.new_price,
     old_price: req.body.old_price,
   });
-  console.log(product);
-  await product.save();
-  console.log("Saved");
-  res.json({success:true,name:req.body.name})
+  try {
+    await product.save();
+    console.log("Saved");
+    res.json({ success: true, name: req.body.name });
+  } catch (error) {
+    console.error("Error saving product:", error);
+    res.status(500).json({ success: false, error: "Internal server error." });
+  }
+  
 });
 
 app.post("/removeproduct", async (req, res) => {
