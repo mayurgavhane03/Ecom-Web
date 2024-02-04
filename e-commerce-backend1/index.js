@@ -101,6 +101,7 @@ app.use('/images', express.static('upload/images'));
 
 
 
+
 // MiddleWare to fetch user from database
 const fetchuser = async (req, res, next) => {
   const token = req.header("auth-token");
