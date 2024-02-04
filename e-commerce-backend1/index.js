@@ -6,6 +6,10 @@ const jwt = require("jsonwebtoken");
 const multer = require("multer");
 const path = require("path");
 const cors = require("cors");
+const cloudinary = require('cloudinary').v2;
+
+const fs = require('fs');//file system
+app.use('/images', express.static('upload/images'));
 
 app.use(express.json());
 app.use(cors());
@@ -19,22 +23,83 @@ mongoose.connect(
   );
 
 
+  //cloudinary
+
+
+
+
+
+
+
+
+  
+cloudinary.config({ 
+  cloud_name: 'doi13tpyz', 
+  api_key: '242191266474328', 
+  api_secret: 'UVBk2aixmNxjvMVwadSEA2S3oQM' 
+});
+
+const uploadOnCloudinary = async (localFilePath) => {
+  try {
+    const response = await cloudinary.uploader.upload(localFilePath, {
+      resource_type: "auto"
+    });
+
+    console.log("File uploaded successfully on Cloudinary", response.url);
+    return response;
+  } catch (error) {
+    fs.unlinkSync(localFilePath); // Remove the locally saved temp file as the upload operation failed
+    return null;
+  }
+};
+
+
+
+
+
+
+
+
+
+
+
+
 //Image Storage Engine 
 const storage = multer.diskStorage({
-    destination: './upload/images',
-    filename: (req, file, cb) => {
-      console.log(file);
-        return cb(null, `${file.fieldname}_${Date.now()}${path.extname(file.originalname)}`)
-    }
-})
+  destination: './upload/images',
+  filename: (req, file, cb) => {
+    console.log(file);
+    return cb(null, `${file.fieldname}_${Date.now()}${path.extname(file.originalname)}`);
+  }
+});
+
+
+
 const upload = multer({storage: storage})
-app.post("/upload", upload.single('product'), (req, res) => {
-    res.json({
+
+
+
+app.post("/upload", upload.single('product'), async (req, res) => {
+  try {
+    // Use the Cloudinary upload function
+    const cloudinaryResponse = await uploadOnCloudinary(req.file.path);
+
+    if (cloudinaryResponse) {
+      res.json({
         success: 1,
-        image_url: `http://ec2-54-224-39-210.compute-1.amazonaws.com:4000/images/${req.file.filename}`
-    })
-})
+        image_url: cloudinaryResponse.url
+      });
+    } else {
+      res.status(500).json({ success: 0, message: "File upload to Cloudinary failed." });
+    }
+  } catch (error) {
+    res.status(500).json({ success: 0, message: "Internal server error." });
+  }
+});
+
 app.use('/images', express.static('upload/images'));
+
+
 
 // MiddleWare to fetch user from database
 const fetchuser = async (req, res, next) => {

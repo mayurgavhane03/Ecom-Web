@@ -47,10 +47,30 @@ const AddProduct = () => {
       
     }
   }
-
+ /*  const handleWonButtonClick = () => {
+    // Set the productDetails state to an empty object
+    setProductDetails({
+      name: "",
+      image: "",
+      category: "women",
+      new_price: "",
+      old_price: ""
+    });
+  }; */
   const changeHandler = (e) => {
     console.log(e);
     setProductDetails({...productDetails,[e.target.name]:e.target.value});
+
+
+    setTimeout(() => {
+      setProductDetails({
+        name: "",
+        image: "",
+        category: "women",
+        new_price: "",
+        old_price: ""
+      });
+    }, 2000); // 3000 milliseconds (3 seconds)
     }
 
   const imageHandler = (e) => {
@@ -88,7 +108,7 @@ const AddProduct = () => {
         </label>
         <input onChange={(e)=>{imageHandler(e)}} type="file" name="image" id="file-input" hidden />
       </div>
-      <button className="addproduct-btn" onClick={()=>{AddProduct()}}>ADD</button>
+      <button className="addproduct-btn" onClick={()=>{AddProduct()  }}>ADD</button>
     </div>
   );
 };
