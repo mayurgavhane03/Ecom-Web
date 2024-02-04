@@ -32,7 +32,7 @@ mongoose.connect(
 
 
 
-  
+  // cloudinary data fetching 
 cloudinary.config({ 
   cloud_name: 'doi13tpyz', 
   api_key: '242191266474328', 
@@ -57,7 +57,7 @@ const uploadOnCloudinary = async (localFilePath) => {
 
 
 
-
+///
 
 
 
