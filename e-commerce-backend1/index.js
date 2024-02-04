@@ -12,7 +12,18 @@ const fs = require('fs');//file system
 app.use('/images', express.static('upload/images'));
 
 app.use(express.json());
-app.use(cors());
+const allowedOrigins = [
+  'https://ecom-admin-deploy.vercel.app',
+  'https://ecom-front-end-deploy.vercel.app'
+];
+
+const corsOptions = {
+  origin: allowedOrigins,
+  optionsSuccessStatus: 200
+};
+
+app.use(cors(corsOptions));
+
 
 // Database Connection With MongoDB
 mongoose.connect(
@@ -44,7 +55,7 @@ const uploadOnCloudinary = async (localFilePath) => {
     const response = await cloudinary.uploader.upload(localFilePath, {
       resource_type: "auto"
     });
-
+//origin added 
     console.log(response.url);
 
     //console 

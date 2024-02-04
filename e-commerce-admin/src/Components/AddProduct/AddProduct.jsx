@@ -62,15 +62,6 @@ const AddProduct = () => {
     setProductDetails({...productDetails,[e.target.name]:e.target.value});
 
 
-    setTimeout(() => {
-      setProductDetails({
-        name: "",
-        image: "",
-        category: "women",
-        new_price: "",
-        old_price: ""
-      });
-    }, 2000); // 3000 milliseconds (3 seconds)
     }
 
   const imageHandler = (e) => {
